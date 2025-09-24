@@ -13,6 +13,7 @@ Type A is the most conservative residual mix, consisting solely of unclaimed or 
 * **Key Features**: Geographic boundaries align with the reporting entity's market (e.g., ISO/RTO or eGRID subregion). It utilizes data from all-generation certificate tracking systems, such as PJM-GATS or M-RETS.
 * **Calculation**: (Total emissions - Emissions from specified transactions) / (Total MWh generated - MWh from specified transactions).
 * **Use in Granular Registry**: Ideal for null power or unspecified purchases where no utility-specific data exists. In SSS contexts, Type A serves as a baseline proxy, ensuring allocations reflect only truly unclaimed attributes, which helps avoid resource shuffling in compliance-heavy markets.
+* **Legacy resources**: Includes unclaimed legacy generation (e.g., nuclear and large hydro not credited under RPS/CES) so long as their attributes are not otherwise claimed or retired (e.g., via EACs, supplier-specific contracts, ZECs, or similar in-boundary instruments). If claimed/retired, they are removed from Type A.
 * **Pros and Cons**: Provides high precision in tracked markets but may result in higher emissions factors if clean attributes are heavily claimed elsewhere.
 
 ## What is Residual Mix Type B?
