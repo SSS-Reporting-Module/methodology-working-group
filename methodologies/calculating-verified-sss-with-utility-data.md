@@ -1,5 +1,54 @@
 # Calculating Verified SSS with Utility Data
 
+> Note: This content is consolidated into `sss-methodology.md` as the primary (verified) path. This file is retained as an annex for utility-data specifics (e.g., vintage banking verification and retirement deadlines). Refer to `sss-methodology.md` for the canonical schema and calculations used by software.
+
+## Annex scope (details-only)
+
+Use this annex to validate and ingest utility-submitted data into the unified schema in `sss-methodology.md`. Do not repeat calculations here; only perform verification and format mapping.
+
+## Utility verification checklist (submitter → registry)
+
+- Attestation: Signed cover letter confirming allocation to SSS and no double-counting.
+- Tracking-system cross-checks: Match batch IDs, vintages, and retirement dates in WREGIS / GATS / AIB.
+- Vintage banking rules: Confirm allowed carryover and retirement deadlines for the jurisdiction; exclude non-compliant vintages.
+- Allocation proof: Evidence that zero-carbon volumes are allocated to SSS (not retail choice or voluntary programs).
+- External sales: Logs of RECs sold externally; confirm subtraction from SSS.
+- Retail sales: Calendar-year MWh by class; reconcile to regulator filings (e.g., EIA 861; discrepancy < 2–5%).
+- Generation mix: Owned/contracted/purchases by fuel; reconcile sums to retail sales ± losses.
+- Emissions: Supplier-published SSEF includes retired attributes; if absent, ensure plant/fuel intensities provided for bottom-up.
+- Compliance: RPS/CES obligation and filings; compute Obligation Gap and flag non-compliance.
+- Provenance: Source list with retrieval dates; version stamp dataset.
+
+## Data submission format → unified schema mapping
+
+- context: reporting_year, market_region, lse, tracking_systems
+- retail_sales.total_mwh: from utility; include by_customer_class if provided
+- rec_retirements_for_sss.records: [{certificate_id|batch_id, technology, vintage_year, retirement_date, mwh, program, allocation}]
+- rec_retirements_for_sss.external_sales_mwh: total MWh sold to external parties (verifiable)
+- non_rps_zero_carbon_for_sss.records: [{resource_type, mwh, proof}]
+- generation_mix: owned/contracted/purchases arrays with fuel, mwh
+- emissions: supplier_published_ssef or plant_or_fuel_level_intensities
+- compliance: rps_ces_obligation (percent or mwh), filings
+- provenance_and_quality: sources[], confidence_score, notes_on_banking_and_deadlines
+
+CSV templates available in `/data/templates/utility-submission/` (fields align 1:1 with the schema above).
+
+## Quick decision rules
+
+- If supplier_published_ssef is attested and consistent with verified retirements → use it; else compute per `sss-methodology.md`.
+- Exclude any retirements outside allowed windows or exceeding banking limits.
+- If allocation to SSS is ambiguous → treat as non-SSS; require clarification.
+
+## Region-specific verification pointers (abbrev.)
+
+- California: Retire by July 1 post-year; use CPUC PCL for cross-check.
+- Texas: 3-year banking typical; confirm via PUC §25.173 and ERCOT REC logs.
+- New York: Voluntary banking indefinite; Tier 1 limits apply; check NYGATS/NYSERDA.
+
+---
+
+Legacy detailed methodology retained below for reference. For normative definitions and calculations, use `sss-methodology.md`.
+
 As a renewable energy technical expert advising Clean Incentive, Inc., which owns and operates the Granular Registry and Marketplace, this methodology outlines a standardized, transparent process for calculating (i) the volume of Renewable Energy Certificates (RECs) and other zero-carbon attributes retired on behalf of SSS customers and (ii) a supplier-specific emission factor (SSEF) for market-based Scope 2 reporting. This approach applies when a Load-Serving Entity (LSE) or utility submits structured data directly to the Granular Registry, superseding public-source estimates. It ensures accuracy by verifying retirement dates to address "vintage banking," where RPS regulations often permit utilities to bank RECs from prior years (e.g., up to 3 years in many states) or retire them after the calendar year (e.g., by July 1 of the following year in California for multi-year compliance periods). The process is conducted annually per energy-market region, aligned with the draft GHG Protocol SSS guidance.
 
 This methodology focuses on annual baselines; hourly extensions are addressed in Section 8 for regions with time-stamped data.

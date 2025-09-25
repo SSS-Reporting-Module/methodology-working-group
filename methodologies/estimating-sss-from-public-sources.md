@@ -1,5 +1,58 @@
 # Estimating SSS from Public Sources
 
+> Note: Public-data estimation is now a fallback path under `sss-methodology.md`. Use this file as an annex for the ETL fallback mapping and examples. The canonical schema, calculations, and decision tree live in `sss-methodology.md`.
+
+## Annex scope (details-only)
+
+Use this annex to populate the unified schema in `sss-methodology.md` when utility-submitted data are unavailable. Do not restate calculations; only map public sources to schema fields with fallback order and QA.
+
+## Field-by-field ETL mapping (fallback order)
+
+- retail_sales.total_mwh:
+  1) Regulator filings (e.g., EIA 861, Eurostat)
+  2) Utility annual reports / sustainability reports
+  3) National statistical offices; modeled estimate (flag high-uncertainty)
+- rec_retirements_for_sss.records:
+  1) Tracking-system compliance/public reports (WREGIS, GATS, AIB, I-REC)
+  2) Regulator RPS/CES reports
+  3) Supplier disclosures (PCL, EEI); infer linkage to SSS where explicit
+- rec_retirements_for_sss.external_sales_mwh:
+  1) Registry voluntary sales reports
+  2) Supplier financial notes; trade press
+- non_rps_zero_carbon_for_sss.records:
+  1) Public/regulated asset disclosures (IRPs, FERC Form 1, ZEC/legacy hydro dockets)
+  2) Utility reports; government asset registries
+- generation_mix (owned/contracted/purchases):
+  1) Supplier PCL/EEI/sustainability disclosures
+  2) National stats with ownership/purchase annotations
+  3) Bottom-up reconstruction from plant-level datasets (eGRID, EU ETS, PRTR)
+- emissions:
+  1) Supplier-published SSEF
+  2) Residual-mix EF (AIB/RE-DISS)
+  3) Fuel-specific intensities applied to reconstructed mix (eGRID, national inventories)
+- compliance:
+  1) RPS/CES filings; DSIRE/policy databases
+  2) Statutory percentages; compute obligation MWh from retail_sales
+- provenance_and_quality:
+  - Record sources, retrieval dates; compute confidence score; note banking/deadline assumptions
+
+## QA checklist (public data)
+
+- Triangulate each field with ≥2 independent sources; target 3 where available.
+- Reconcile totals: generation mix sums to retail sales ± losses; REC retirements ≥ renewable claims.
+- Validate vintages and retirement dates against jurisdictional deadlines.
+- Document gaps and apply conservative defaults per `sss-methodology.md` when unresolved.
+
+## Regional notes (abbrev.)
+
+- California: CPUC PCL for supplier SSEF; WREGIS for compliance; strong transparency.
+- PJM/NY: Hourly or granular timestamps available; watch for ZEC programs.
+- EU: Use AIB GO cancellations and Residual Mix; verify supplier disclosures against AIB.
+
+---
+
+Legacy detailed methodology retained below for reference. For normative definitions and calculations, use `sss-methodology.md`.
+
 As a renewable energy technical expert advising Clean Incentive, Inc., which owns and operates the Granular Registry and Marketplace, this methodology outlines a standardized, transparent process for estimating (i) the volume of Renewable Energy Certificates (RECs) and other zero-carbon attributes retired on behalf of SSS customers and (ii) a supplier-specific emission factor (SSEF) for market-based Scope 2 reporting. This approach is applied when a Load-Serving Entity (LSE) or utility does not submit structured data directly to the Granular Registry. It leverages publicly available sources to generate a defensible proxy bundle (retired RECs paired with SSEF), aligned with the draft GHG Protocol SSS guidance as a "credible third-party dataset." The process is conducted annually per energy-market region (e.g., U.S. state + ISO, Canadian province, EU Member State, etc.), with adjustments for local data transparency.
 
 This methodology focuses on annual baselines; hourly extensions are addressed in Section 8 for regions with time-stamped data availability.

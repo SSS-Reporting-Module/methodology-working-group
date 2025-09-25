@@ -50,3 +50,7 @@ Deliver synthesized insights for GHG Protocol Scope 2 updates.
 {% endstep %}
 {% endstepper %}
 
+## Role within the unified SSS methodology
+
+This directory is the ETL playbook used to populate the unified schema defined in `../sss-methodology.md`. When utility submissions are unavailable, follow these steps to fill the schema fields (retail sales, EAC retirements, non-RPS zero-carbon, generation mix, emissions, compliance), honoring the fallback and data-quality hierarchy in `sss-methodology.md`. Outputs from these steps should serialize directly into the schema for software ingestion.
+
