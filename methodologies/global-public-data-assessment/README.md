@@ -14,37 +14,37 @@ Each step builds upon the previous one, incorporating verification tools (e.g., 
 
 {% stepper %}
 {% step %}
-## Compile List of Supplier-Region Pairs
+### Compile List of Supplier-Region Pairs
 
 Establish a foundational inventory of unique supplier-region pairs to define the assessment's scope, ensuring comprehensive global coverage while prioritizing regions with high emissions or data potential.
 {% endstep %}
 
 {% step %}
-## Assign SSS Resource Categories
+### Assign SSS Resource Categories
 
 Qualify pairs for SSS categories (Regulated Cost Recovery, Non-Bypassable Charges, Customer Funding) to filter for relevant data compilation, ensuring focus on viable SSS pathways per Scope 2 TWG proposals.
 {% endstep %}
 
 {% step %}
-## Compile Public Data Sources for ETL (Resource Mix, EAC Retirements, Sales Volume)
+### Compile Public Data Sources for ETL (Resource Mix, EAC Retirements, Sales Volume)
 
 Gather structured public data for qualifying pairs to enable ETL, focusing on SSS-tied metrics for granular Scope 2 calculations.
 {% endstep %}
 
 {% step %}
-## Execute ETL Pipeline and Perform Data Quality Assessment
+### Execute ETL Pipeline and Perform Data Quality Assessment
 
 Ingest data into a database and assess quality per Scope 2 criteria to ensure usability for SSS reporting.
 {% endstep %}
 
 {% step %}
-## Conduct Gap Analysis and Formulate Recommendations
+### Conduct Gap Analysis and Formulate Recommendations
 
 Identify gaps and recommend improvements to advance SSS in Scope 2 revisions.
 {% endstep %}
 
 {% step %}
-## Synthesize Findings into Final Report
+### Synthesize Findings into Final Report
 
 Deliver synthesized insights for GHG Protocol Scope 2 updates.
 {% endstep %}
@@ -53,4 +53,3 @@ Deliver synthesized insights for GHG Protocol Scope 2 updates.
 ## Role within the unified SSS methodology
 
 This directory is the ETL playbook used to populate the unified schema defined in `../sss-methodology.md`. When utility submissions are unavailable, follow these steps to fill the schema fields (retail sales, EAC retirements, non-RPS zero-carbon, generation mix, emissions, compliance), honoring the fallback and data-quality hierarchy in `sss-methodology.md`. Outputs from these steps should serialize directly into the schema for software ingestion.
-
