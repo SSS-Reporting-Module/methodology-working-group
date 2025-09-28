@@ -1,6 +1,6 @@
 # Table of contents
 
-* [What is Standard Supply Service (SSS)?](README.md)
+* [What is Standard Supply Service (SSS)?](what-is-standard-supply-service-sss.md)
 * [Why SSS Matters for Corporate Carbon Accounting](why-sss-matters-for-corporate-carbon-accounting.md)
 
 ## Methodologies
